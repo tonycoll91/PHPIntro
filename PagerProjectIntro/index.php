@@ -9,20 +9,7 @@
 	div#pagination_controls > a{ color: #06F;}
 	div#pagination_controls > a:visited{color:#06F;}
 	</style>
-</head>
-<body>
-	<div id="main-content">		
-		<table border = "1">
-		<tr>
-		<th>ID</th>
-		<th>Year</th>
-		<th>Make</th>
-		<th>Model</th>
-		<th>Color</th>
-		</tr>
-		
-		
-		<?php
+	<?php
 		$con=mysqli_connect("127.0.0.1","root","","cars");
 		$sql = "SELECT count(id) FROM car";
 		$query = mysqli_query($con,$sql);
@@ -65,37 +52,109 @@
 		//if more than one page of results
 		if($last != 1)
 		{
+			$first = 1;
+			$paginationCtrls .= '<a href=" '.$_SERVER['PHP_SELF'].'?pn='.$first.' ">First</a> &nbsp &nbsp; ';
 			if ($pagenum > 1)
 			{
 				$previous = $pagenum -1;
 				$paginationCtrls .= '<a href=" '.$_SERVER['PHP_SELF'].'?pn='.$previous.' ">Previous</a> &nbsp; ';
 				//render clickable number links should appear on LEFT of target page
-				for($i = $pagenum -2; $i < $pagenum; $i++)
+				if($pagenum == $last)
 				{
-					if($i > 0)
-					{ 
-						$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
+					for($i = $pagenum -4; $i < $pagenum; $i++)
+					{
+						if($i > 0)
+						{ 
+							$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
+						}
+					}
+				}
+				if($pagenum == $last-1)
+				{
+					for($i = $pagenum -3; $i < $pagenum; $i++)
+					{
+						if($i > 0)
+						{ 
+							$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
+						}
+					}
+				}
+				if($pagenum == $last-2)
+				{
+					for($i = $pagenum -2; $i < $pagenum; $i++)
+					{
+						if($i > 0)
+						{ 
+							$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
+						}
+					}
+				}
+				if(($pagenum != $last)&&($pagenum != $last-1)&&($pagenum != $last-2))
+				{
+					for($i = $pagenum -2; $i < $pagenum; $i++)
+					{
+						if($i > 0)
+						{ 
+							$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
+						}
 					}
 				}
 			}
 			//render page number without it being a link
 			$paginationCtrls .= ''.$pagenum.' &nbsp; ';
 			//render num of clickable number links on RIGHT side of target page
-			for($i = $pagenum +1; $i <= $last; $i++)
+			if($pagenum == 1)
 			{
-				$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
-				if($i >= $pagenum+2)
+				for($i = $pagenum +1; $i <= $last; $i++)
 				{
-					break;
+					$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
+					if($i >= $pagenum+4)
+					{
+						break;
+					}
+				}
+			}
+			if($pagenum == 2)
+			{
+				for($i = $pagenum +1; $i <= $last; $i++)
+				{
+					$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
+					if($i >= $pagenum+3)
+					{
+						break;
+					}
+				}
+			}
+			if ($pagenum > 2)
+			{
+				for($i = $pagenum +1; $i <= $last; $i++)
+				{
+					$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
+					if($i >= $pagenum+2)
+					{
+						break;
+					}
 				}
 			}
 			if ($pagenum != $last)
 			{
 				$next = $pagenum +1;
-				$paginationCtrls .= ' &nbsp; &nbsp; <a href=" '.$_SERVER['PHP_SELF'].'?pn='.$next.' ">Next</a> ';
+				$paginationCtrls .= '<a href=" '.$_SERVER['PHP_SELF'].'?pn='.$next.' ">Next</a> &nbsp; ';
 			}
+			$paginationCtrls .= ' &nbsp; &nbsp; <a href=" '.$_SERVER['PHP_SELF'].'?pn='.$last.' ">Last</a> ';
 		}
-		$list = '';
+		//$list = '';
+		
+		echo "<table border = '1'>
+		
+		<tr>
+		<th>ID</th>
+		<th>Year</th>
+		<th>Make</th>
+		<th>Model</th>
+		<th>Color</th>
+		</tr>";
+			
 		while($row = mysqli_fetch_array($query, MYSQLI_ASSOC))
 		{
 			echo "<tr>";
@@ -113,13 +172,16 @@
 			$color = $row["color"];
 			$list .= '<p>'.$id.' '.$year.' '.$make.' '.$model.' '.$color.' </p>';*/
 		}
-		
+		echo "</table>";
 		mysqli_close($con);
 		?>
-		</table>
+</head>
+<body>
+	<div id="main-content">		
+		
 		
 		<div>
-			<p><?php echo $list; ?></p>
+			<!--<p><?php echo $list; ?></p>!-->
 			<div id="pagination_controls"><?php echo $paginationCtrls; ?></div>
 		</div>
 	</div>
