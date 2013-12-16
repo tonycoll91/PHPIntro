@@ -5,29 +5,23 @@
 	<meta charset="utf-8" />
 </head>
 <body>
-	
 	<?php 
 		$con=mysqli_connect("127.0.0.1","root","","cars");
 		$result = mysqli_query($con,"SELECT * FROM car");	
 		$query = mysqli_query($con, "SELECT COUNT(id) FROM car");
-		$count = mysqli_fetch_row($query);
-	?>
-	
-	
-	<?php 
+		$count = mysqli_fetch_row($query);	
+ 
 		$data = array();
 		
 		while($row = mysqli_fetch_assoc($result))
 		{
 			array_push($data, $row);
 		}
-		array_push($data, array("count" => $count));
+		array_push($data, array("count" => $count));	
+	
+		mysqli_close($con);
+		
+		echo json_encode($data); 
 	?>
-	
-	
-	
-	<?php mysqli_close($con);?>
-	
-	<?php  echo json_encode($data); ?>
 </body>
 </html>
