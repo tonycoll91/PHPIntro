@@ -16,6 +16,9 @@
 			legend{
 				text-align: right;
 			}
+			fieldset#center{
+				text-align: center;
+			}
 		</style>
 	</head>
 <body>
@@ -23,22 +26,25 @@
 	function validateInput($data) 
 	{
 		global $errorCount;
-		if (!is_numeric($data)) {
+		if (!is_numeric($data)) 
+		{
 			echo "<p class='error'>Please enter a year between 1912 and 2010.</p>";
 			++$errorCount;
 			$retval = "";
 		 }
-		elseif ($data < 1912 || $data > 2014) {
+		elseif ($data < 1912 || $data > 2014) 
+		{
 			echo "<p class='error'>Please enter a year between 1912 and 2010.</p>";
 			++$errorCount;
 			$retval = "";
 		}
 		// Only clean up the input if it isn't empty
-		else { 
+		else 
+		{ 
 			$retval = trim($data);
 			$retval = stripslashes($retval);
 			$retval = htmlspecialchars($retval, ENT_QUOTES);
-    }
+		}
     return($retval);
 	}
 
@@ -48,13 +54,13 @@
 	<div id="containElements">
 		<form name="contact" action="<?php echo $_SERVER['SCRIPT_NAME'];?>" method="post">
 			<h1 class="test">The Chinese Zodiac</h1>
-			<h2 class="test">Using IF...ELSE</h2>
+			<h2 class="test">Using Switch</h2>
 			<fieldset>
 				<legend>Birth Information</legend>
 				Year of Birth: <input type="text" size="3" name="birthyear" value="<?php echo $birthyear; ?>" />
 			</fieldset>
  
-			<fieldset align="center">
+			<fieldset id="center">
 				<legend>Reset and Submit Information</legend>
 				<button type="reset" name="Reset">Clear Form</button>
 				<input type="submit" name="Submit" value="Submit" />
@@ -161,8 +167,7 @@ else
 	}
 	$count = displayStatistic($birthyear);
 	echo "<p>You are person " .$count. " to enter ". $birthyear. ".</p>";
-	
-	echo "<a href='DP5-2.php' text-align='center'>Back</a>";
+	echo "<p style='text-align: center;'><a href='BirthYear_switch.php'>Back</a></p>";
 	
 }	
 

@@ -16,6 +16,9 @@
 			legend{
 				text-align: right;
 			}
+			fieldset#center{
+				text-align: center;
+			}
 		</style>
 	</head>
 <body>
@@ -57,7 +60,7 @@
 				Year of Birth: <input type="text" size="3" name="birthyear" value="<?php echo $birthyear; ?>" />
 			</fieldset>
  
-			<fieldset align="center">
+			<fieldset id="center">
 				<legend>Reset and Submit Information</legend>
 				<button type="reset" name="Reset">Clear Form</button>
 				<input type="submit" name="Submit" value="Submit" />
@@ -174,7 +177,7 @@ else
 	$count = displayStatistic($birthyear);
 	echo "<p>You are person " .$count. " to enter ". $birthyear. ".</p>";
 	
-	echo "<a href='DP5-2.php' align='center'>Back</a>";
+	echo "<p style='text-align: center;'><a href='BirthYear_ifelse.php'>Back</a></p>";
 	
 }	
 

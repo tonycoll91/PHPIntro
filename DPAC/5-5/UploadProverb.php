@@ -21,7 +21,15 @@
 		<input type="submit" name="submit"  value="Add Chinese Proverb" />
 	</form>
 <?php
-	$file = fopen("proverbs.txt","r+");
+	if (isset($_POST['submit']))
+	{
+		$file = fopen("proverbs.txt","a+");
+		$old_content = file_get_contents("proverbs.txt");
+		$new_content = $_POST['userproverb'];
+		fwrite($file, $old_content . $new_content."\n");
+		fclose($file);
+	}
+	
 ?>
 </body>
 </html>
