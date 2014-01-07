@@ -14,22 +14,33 @@
 		font-size: 13pt;
 	}
 </style>
+<script src="jquery-1.6.1.min.js"></script>
+<script>
+$(document).ready(function(){
+	$(input).onclick(function(){
+		$(#text).val('');
+	});
+});
+</script>
+
 </head>
 <body>
 	<form align="center" action="<?php echo $_SERVER['SCRIPT_NAME'];?>" method="post">
-		<textarea type="commentbox" name="userproverb" ></textarea></br>
+		<textarea id="text" type="commentbox" name="userproverb" ></textarea></br>
 		<input type="submit" name="submit"  value="Add Chinese Proverb" />
 	</form>
 <?php
 	if (isset($_POST['submit']))
 	{
 		$file = fopen("proverbs.txt","a+");
-		$old_content = file_get_contents("proverbs.txt");
 		$new_content = $_POST['userproverb'];
-		fwrite($file, $old_content . $new_content."\n");
+		fwrite($file, $new_content. "%"."\n");
 		fclose($file);
 	}
-	
+?>
+
+<?php
+	explode("%", "proverb.txt");
 ?>
 </body>
 </html>
