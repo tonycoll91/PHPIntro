@@ -21,19 +21,50 @@
 			
 			if(isset($_POST['submit']))
 			{
+				$Dir = "Images";
 				$file = $_FILES['choice']['name'];
-				echo $file;
-				//$img = exif_imagetype($file);
-				
-				if(($img = IMAGETYPE_GIF) || ($img = IMAGETYPE_JPEG) || ($img = IMAGETYPE_PNG))
+				if(isset($_FILES['choice']))
 				{
+					if (($_FILES['choice']['type'] == "image/gif") ||
+						($_FILES['choice']['type'] == "image/jpeg") ||
+						($_FILES['choice']['type'] == "image/jpg") ||
+						($_FILES['choice']['type'] == "image/pjpeg") ||
+						($_FILES['choice']['type'] == "image/x-png") ||
+						($_FILES['choice']['type'] == "image/png"))
+					{
+						if(move_uploaded_file($_FILES['choice']['tmp_name'], $Dir ."/" . $_FILES['choice']['name']) == TRUE)
+						{
+							chmod($Dir ."/". $_FILES['choice']['name'], 0644);
+							echo "File \"". htmlentities($_FILES['choice']['name']). "\" successfully uploaded.<br /> \n";
+						}
+						else
+						{
+							echo "There was an error uploading \"".htmlentities($_FILES['choice']['name']). "\".<br />\n";
+						}
+					}
+					else
+					{
+						echo "Sorry, you can only upload jpeg, gif, jpg, or png files.";
+					}
 					
 				}
-				else
+				/*if(isset($_FILES['choice']))
 				{
-					echo "<p style='text-align: center;'>I'm sorry but that is not a valid image file. Valid
-					image file extensions include .JPEG, .GIF, and .PNG.</p>";
-				}
+					if(move_uploaded_file($_FILES['choice']['tmp_name'], $Dir ."/" . $_FILES['choice']['name']) == TRUE)
+					{
+						chmod($Dir ."/". $_FILES['choice']['name'], 0644);
+						echo "File \"". htmlentities($_FILES['choice']['name']). "\" successfully uploaded.<br /> \n";
+						if((exif_imagetype($file) == 1) || (exif_imagetype($file) == 2) || (exif_imagetype($file) == 3))
+						{
+							
+						}
+						else
+						{
+							echo "<p style='text-align: center;'>I'm sorry but that is not a valid image file. Valid
+							image file extensions include .JPEG, .GIF, and .PNG.</p>";
+						}
+					}
+				}*/
 			}
 			
 		?>
